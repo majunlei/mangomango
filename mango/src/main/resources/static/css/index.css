@@ -1,0 +1,21 @@
+.days{
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+}
+
+img {
+    width: 100%;
+}
+
+.story-title{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    width:70%;
+    float: left
+}
+
+body{
+    font-size:1.2em;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MangoPapaya</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+    <style type="text/css">
+        img {width: 100%}
+    </style>
+</head>
+<body>
+<textarea id="content" style="display: none;"></textarea>
+<br/>
+<label class="layui-form-label">标题</label>
+<div class="layui-input-block">
+    <input id="title" type="text" name="title" required=""  lay-verify="required" placeholder="别忘记写标题" autocomplete="off" class="layui-input"/>
+</div>
+<button id="preview" class="layui-btn" style="margin-top: 10px">预览</button>
+<button id="submit" class="layui-btn" style="margin-top: 10px">提交</button>
+<div id="preview-area"></div>
+
+<script src="/layui/layui.js"></script>
+<script src="/js/cookies.js"></script>
+<script>
+    layui.use('layedit', function(){
+        var layedit = layui.layedit
+                ,$ = layui.jquery;
+        layedit.set({
+            uploadImage: {
+                url: '/story/upload/' //接口url
+            }
+        });
+        var index = layedit.build('content', {
+            tool: [
+                'strong','italic','underline','del','|','left','center','right','link','unlink','image'
+            ]
+        }); //建立编辑器
+
+        $('#preview').on('click', function(){
+            var title = $('#title')[0].value;
+            var author = $.cookie("username");
+            var unixTimestamp = new Date();
+            var timeStr = unixTimestamp.toLocaleDateString();
+            var content = layedit.getContent(index);
+            var preview_area = $('#preview-area');
+            preview_area.empty();
+            preview_area.append('<hr/>');
+            preview_area.append('<p class="layui-layer-title" style="font-size: 28px;font-weight: bold;">' + title + '</p>');
+            preview_area.append('<fieldset class="layui-elem-field layui-field-title"><legend>' + author + '&nbsp;&nbsp;' + timeStr + '</legend>');
+            preview_area.append('<div class="layui-field-box">' + content + '</div></fieldset>');
+        });
+
+        $('#submit').on('click', function(){
+            var author = $.cookie("username");
+            if (author === null || $.trim(author) === "" || author === undefined) {
+                layer.alert("登录过期，请返回首页重新登录");
+                return;
+            }
+            var title = $('#title')[0].value;
+            if (title === null || $.trim(title) === "" || title === undefined) {
+                layer.msg("标题不能为空");
+                return;
+            }
+            var content = layedit.getContent(index);
+            if (content === null || $.trim(content) === "" || content === undefined) {
+                alert("内容不能为空");
+                return;
+            }
+            $.post("story/add", {title:title, content:content, author:author}, function(res) {
+                if (res.code === 0) {
+                    layer.msg("提交成功");
+                    window.location.href = "/#li=3";
+                } else {
+                    if (res === null || res.msg === null || res.msg === "") {
+                        layer.msg("请求失败");
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                }
+            }, "json")
+        });
+    });
+</script>
+</body>
+</html>

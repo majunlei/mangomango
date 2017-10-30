@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
     <link rel="stylesheet" href="/layui/css/layui.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css"/>
     <link rel="stylesheet" href="css/index.css" type="text/css"/>
 </head>
 <body>
@@ -16,7 +17,7 @@
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showStories()" lay-id="3"><i class="layui-icon">&#xe705;故事</i></li>
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showXq()" lay-id="4"><i class="layui-icon">&#xe6af;心情</i></li>
     </ul>
-    <div class="layui-col-xs1 layui-col-sm1 layui-col-md1" style="font-size: 12px;margin:0 auto"><div style="margin-top: 5px; color: green"><p align="center">你好</p><p align="center" th:text="${username == null}?'访客':${username}" ></p></div></div>
+    <div class="layui-col-xs1 layui-col-sm1 layui-col-md1" style="font-size: 12px;margin:0 auto"><div style="margin-top: 5px; color: green" onclick="loginout()"><p align="center">你好</p><p align="center" th:text="${username == null}?'朋友':${username}" ></p></div></div>
 
     <div class="layui-tab-content" style="margin-top: -10px">
         <div class="layui-tab-item layui-show" style="margin-top: 40px">
@@ -88,6 +89,7 @@
 </div>
 
 <script src="/layui/layui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
 <script src="/js/index.js"></script>
 <script src="/js/login.js"></script>
 </body>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css"/>
+</head>
+<body>
+
+<!--<div class="swiper-container" id="swiper1">.-->
+    <!--<div class="swiper-wrapper">-->
+        <!--<div class="swiper-slide"><img src="http://mangomango.cc/img/f12037cdc4554ec792d02e9a292192af.jpg"/></div>-->
+        <!--<div class="swiper-slide"><img src="http://mangomango.cc/img/7514bdbe734c4223a10ea62d4f9201d4.jpg"/></div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
+<div id="photos-page1" class="layui-row layui-col-space5">
+    <!--<div class="swiper-wrapper">-->
+    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <img layer-src="http://mangomango.cc/img/7514bdbe734c4223a10ea62d4f9201d4.jpg" layer-index="0" alt="1" width="100%" src="http://mangomango.cc/img/7514bdbe734c4223a10ea62d4f9201d4_thumb.jpg"/>
+    </div>
+    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <img layer-src="http://mangomango.cc/img/4dd5197781a04ba0abd895444097dc8f.jpg" layer-index="1" alt="2" width="100%" src="http://mangomango.cc/img/4dd5197781a04ba0abd895444097dc8f_thumb.jpg"/>
+    </div>
+    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <img layer-src="http://mangomango.cc/img/f12037cdc4554ec792d02e9a292192af.jpg" layer-index="2" alt="3" width="100%" src="http://mangomango.cc/img/f12037cdc4554ec792d02e9a292192af_thumb.jpg"/>
+    </div>
+    <!--</div>-->
+</div>
+
+<script src="/layui/layui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+<!-- Initialize Swiper -->
+<script>
+layui.use(['layer', 'flow'],
+function() {
+    var flow = layui.flow;
+    var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
+    var layer = layui.layer;
+    layer.photos({
+        photos: '#photos-page1'
+        , move: false
+        , tab: function(pic, layero){
+        $('.layui-layer-photos').addClass('swiper-container');
+        $('#layui-layer-photos').addClass('swiper-wrapper');
+        $('.layui-layer-phimg').addClass('swiper-slide');
+        $('#layui-layer-photos').removeClass('layui-layer-content');
+        var photos = $('#photos-page1>div>img');
+        var nowIndex;
+        $.each(photos, function (index, item) {
+            if (item.alt !== pic.alt) {
+                var thumbSrc = item.currentSrc;
+                var src = thumbSrc.replace('_thumb', '');
+                if (item.alt > pic.alt) {
+                    $('#layui-layer-photos').append('<div class="swiper-slide"><img width="100%" src="' + src + '"/></div>');
+
+                } else {
+                    $('.layui-layer-phimg').before('<div class="swiper-slide"><img width="100%" src="' + src + '"/></div>');
+
+                }
+            } else {
+                nowIndex = index;
+            }
+        });
+        var swiper = new Swiper('.swiper-container',{
+            initialSlide :nowIndex,
+        });
+        }
+    });
+});
+</script>
+</body>
+</html>

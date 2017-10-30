@@ -27,11 +27,11 @@ public class UserController {
         logger.info("login request start. username:{} password:{} ip:{}", username, password, MvcUtil.getIp(request));
         try {
             String token = userService.login(username, password);
-            MvcUtil.setCookieValue(response, "username", username, 30 * 24 * 60 * 60, "/");
-            MvcUtil.setCookieValue(response, "token", token, 30 * 24 * 60 * 60, "/");
             if (StringUtils.isEmpty(token)) {
                 return MvcUtil.returnJSON(1, "用户名或密码错误", token);
             }
+            MvcUtil.setCookieValue(response, "username", username, 30 * 24 * 60 * 60, "/");
+            MvcUtil.setCookieValue(response, "token", token, 30 * 24 * 60 * 60, "/");
             return MvcUtil.returnJSON(0, "success", token);
         } catch (Exception e) {
             logger.error("login request Exception. username:{} password:{} ip:{}", username, password, MvcUtil.getIp(request), e);

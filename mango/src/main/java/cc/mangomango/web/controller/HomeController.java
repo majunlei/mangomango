@@ -44,16 +44,15 @@ public class HomeController {
         return "newxq";
     }
 
-    @RequestMapping("days")
-    @ResponseBody
-    public String getDays() {
-        return String.valueOf((int) ((System.currentTimeMillis()/1000 - 1483113600)/86400 + 1));
-    }
-
     @RequestMapping("status")
     @ResponseBody
     public String status() {
         return "ok";
+    }
+
+    @RequestMapping("devtest")
+    public String justDevTest() {
+        return "devtest";
     }
 
 }

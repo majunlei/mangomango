@@ -1,3 +1,4 @@
+"use strict";
 layui.config({
     base: 'js/' //假设这是test.js所在的目录
 }).extend({
@@ -5,28 +6,31 @@ layui.config({
 });
 
 function showPhotos() {
-    layui.use(['layer', 'flow'], function(){
+    layui.use(['layer', 'flow'],
+    function() {
         var flow = layui.flow;
         var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
         var layer = layui.layer;
         var username = $.cookie("username");
         if (!isEmpty(username)) {
             $('#uploadInPhotos').remove();
-            $('#photos').after('<button type="button" class="layui-btn" id="uploadInPhotos" style="float: right;margin-top: 10px;margin-bottom: 10px;"><i class="layui-icon">&#xe67c;</i>上传图片</button>');
+            $('#photos').after('<button type="button" class="layui-btn layui-btn-radius layui-btn-normal" id="uploadInPhotos" style="float: right;margin-top: 10px;margin-bottom: 10px;"><i class="layui-icon">&#xe67c;</i>上传图片</button>');
         }
         flow.load({
             elem: '#photos' //指定列表容器
-            ,isLazyimg: true
-            ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+            ,
+            isLazyimg: true,
+            done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
                 var lis = [];
                 //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
-                $.getJSON('/pic/get?page='+page, function(res) {
+                $.getJSON('/pic/get?page=' + page,
+                function(res) {
                     if (res.code === 0) {
                         lis.push('<div id="photos-page' + page + '" class="layui-row layui-col-space5">');
                         //假设你的列表返回在data集合中
-                        layui.each(res.data, function (index, item) {
-                            lis.push('<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">' +
-                                '<img layer-src="' + item.url + '" lay-src="' + item.thumbUrl + '" layer-index="' + item.id + 'alt="' + item.title + '" width="100%"/></div>')
+                        layui.each(res.data,
+                        function(index, item) {
+                            lis.push('<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">' + '<img layer-src="' + item.url + '" lay-src="' + item.thumbUrl + '" layer-index="' + item.id + '" alt="' + item.id + '" width="100%"/></div>')
                         });
                         lis.push('</div>');
                         //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
@@ -35,8 +39,36 @@ function showPhotos() {
                         next(lis.join(''), page < res.pages);
                         var thisWidth = $(document.body).width() * 0.95 + 'px';
                         layer.photos({
-                            photos: '#' + photoPage
-                            ,area: [thisWidth]
+                            photos: '#' + photoPage,
+                            area: [thisWidth],
+                            move: false,
+                            tab: function(pic, layero) {
+                                $('.layui-layer-photos').addClass('swiper-container');
+                                $('#layui-layer-photos').addClass('swiper-wrapper');
+                                $('.layui-layer-phimg').addClass('swiper-slide');
+                                $('#layui-layer-photos').removeClass('layui-layer-content');
+                                var photos = $('#' + photoPage + '>div>img');
+                                var nowIndex;
+                                $.each(photos,
+                                function(index, item) {
+                                    if (item.alt !== pic.alt) {
+                                        var thumbSrc = item.currentSrc;
+                                        var src = thumbSrc.replace('_thumb', '');
+                                        if (item.alt > pic.alt) {
+                                            $('#layui-layer-photos').append('<div class="swiper-slide"><img width="100%" src="' + src + '"/></div>');
+
+                                        } else {
+                                            $('.layui-layer-phimg').before('<div class="swiper-slide"><img width="100%" src="' + src + '"/></div>');
+
+                                        }
+                                    } else {
+                                        nowIndex = index;
+                                    }
+                                });
+                                var swiper = new Swiper('.swiper-container', {
+                                    initialSlide: nowIndex,
+                                });
+                            }
                         });
                     }
                 });
@@ -46,30 +78,33 @@ function showPhotos() {
 }
 
 function showStories() {
-    layui.use(['layer', 'flow'], function(){
+    layui.use(['layer', 'flow'],
+    function() {
         var flow = layui.flow;
         var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
         var layer = layui.layer;
         var username = $.cookie("username");
         if (!isEmpty(username)) {
             $('#addStory').remove();
-            $('#story-detail-area').after('<div id="addStory" style="float: right"><a href="/editor">添加</a></div>');
+            $('#story-detail-area').after('<div id="addStory" style="float: right"><a class="layui-btn layui-btn-radius layui-btn-normal" href="/editor">写新的</a></div>');
         }
         $('#story-detail-area').empty();
         $('#stories').removeAttr("hidden");
         flow.load({
             elem: '#stories' //指定列表容器
-            ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+            ,
+            done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
                 var lis = [];
                 //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
-                $.getJSON('/story/get?page='+page, function(res) {
+                $.getJSON('/story/get?page=' + page,
+                function(res) {
                     if (res.code === 0) {
                         //假设你的列表返回在data集合中
-                        layui.each(res.data, function (index, item) {
+                        layui.each(res.data,
+                        function(index, item) {
                             var dt = item.dt + '';
                             var dtFmt = dt.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1/$2/$3");
-                            lis.push('<p><a class="story-title" href="javascritp:void(0)" ' +
-                                'onclick="showStoryDetail(' + item.id + ')">' + item.title + '</a><span style="float: right">' + dtFmt + '</span></p><hr/>')
+                            lis.push('<p><a class="story-title" href="javascritp:void(0)" ' + 'onclick="showStoryDetail(' + item.id + ')">' + item.title + '</a><span style="float: right">' + dtFmt + '</span></p><hr/>')
                         });
                         //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                         //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
@@ -84,43 +119,40 @@ function showStories() {
 }
 
 function showXq() {
-    layui.use(['layer', 'flow'], function(){
+    layui.use(['layer', 'flow'],
+    function() {
         var flow = layui.flow;
         var $ = layui.jquery; //不用额外加载jQuery，flow模块本身是有依赖jQuery的，直接用即可。
         var layer = layui.layer;
         var username = $.cookie("username");
         if (!isEmpty(username)) {
             $('#addXq').remove();
-            $('#xqs').after('<div id="addXq" style="float: right"><a href="/newxq">添加</a></div>');
+            $('#xqs').after('<div id="addXq" style="float: right"><a class="layui-btn layui-btn-radius layui-btn-normal" href="/newxq">写新的</a></div>');
         }
         flow.load({
             elem: '#xqs' //指定列表容器
-            ,isLazyimg: true
-            ,done: function(page, next){ //到达临界点（默认滚动触发），触发下一页
+            ,
+            isLazyimg: true,
+            done: function(page, next) { //到达临界点（默认滚动触发），触发下一页
                 var lis = [];
                 //以jQuery的Ajax请求为例，请求下一页数据（注意：page是从2开始返回）
-                $.getJSON('/xq/get?page='+page, function(res) {
+                $.getJSON('/xq/get?page=' + page,
+                function(res) {
                     if (res.code === 0) {
                         //假设你的列表返回在data集合中
                         lis.push('<div id="xq-page' + page + '">');
-                        layui.each(res.data, function (index, item) {
+                        layui.each(res.data,
+                        function(index, item) {
                             var liked = localStorage.getItem("like_" + item.id);
                             var likeIcon = '<i id="xq-like-icon' + item.id + '" class="layui-icon" style="margin-left: 10%" onclick="like(' + item.id + ')">&#xe6c6</i>';
                             if (liked === "1") {
                                 likeIcon = '<i id="xq-like-icon' + item.id + '" class="layui-icon" style="margin-left: 10%; color: grey">&#xe6c6</i>';
                             }
-                            lis.push('<fieldset class="layui-elem-field"><legend style="font-weight: bold">' + item.author + '</legend>' +
-                                '<div class="layui-field-box layui-row layui-col-space5">' + item.xq);
+                            lis.push('<fieldset class="layui-elem-field"><legend style="font-weight: bold">' + item.author + '</legend>' + '<div class="layui-field-box layui-row layui-col-space5">' + item.xq);
                             for (var i in item.urls) {
-                                lis.push('<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><img layer-src="' + item.urls[i].url +
-                                    '" lay-src="' + item.urls[i].thumbUrl + '" layer-index="' + item.id + '" alt="' + item.id + '" width="100%"/></div>')
+                                lis.push('<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><img layer-src="' + item.urls[i].url + '" lay-src="' + item.urls[i].thumbUrl + '" layer-index="' + item.id + '" alt="' + item.id + '" width="100%"/></div>')
                             }
-                            lis.push('</div><div style="margin-bottom: 35px"><div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span style="margin-left: 10px; font-size: 14px">' + item.timeDesc + '</span></div>' +
-                                '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">&nbsp;</div><div class="layui-col-xs5 layui-col-sm5 layui-col-md5">' +
-                                '<span class="layui-badge-rim">看</span><span style="font-size: 14px">' + item.view +'</span>' +
-                                likeIcon + '<span id="xq-like' + item.id + '"style="font-size: 14px">' + item.like + '</span>' +
-                                '<i class="layui-icon" style="margin-left: 10%" onclick="comment(' + item.id + ')">&#xe611;</i></div></div>');
-
+                            lis.push('</div><div style="margin-bottom: 35px"><div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span style="margin-left: 10px; font-size: 14px">' + item.timeDesc + '</span></div>' + '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">&nbsp;</div><div class="layui-col-xs5 layui-col-sm5 layui-col-md5">' + '<span class="layui-badge-rim">看</span><span style="font-size: 14px">' + item.view + '</span>' + likeIcon + '<span id="xq-like' + item.id + '"style="font-size: 14px">' + item.like + '</span>' + '<i class="layui-icon" style="margin-left: 10%" onclick="comment(' + item.id + ')">&#xe611;</i></div></div>');
 
                             var commentNum = 0;
                             for (var j in item.comments) {
@@ -148,9 +180,9 @@ function showXq() {
                         next(lis.join(''), page < res.pages);
                         var thisWidth = $(document.body).width() * 0.95 + 'px';
                         layer.photos({
-                            photos: '#' + photoPage
-                            ,area: [thisWidth]
-                            ,tab: function(pic, layero){
+                            photos: '#' + photoPage,
+                            area: [thisWidth],
+                            tab: function(pic, layero) {
                                 viewAdd(pic.alt);
                             }
                         });
@@ -166,9 +198,11 @@ function showXq() {
 function like(id) {
     viewAdd(id);
     localStorage.setItem("like_" + id, "1");
-    layui.use('jquery', function() {
+    layui.use('jquery',
+    function() {
         var $ = layui.jquery;
-        $.getJSON('/xq/like/' + id, function (res) {
+        $.getJSON('/xq/like/' + id,
+        function(res) {
             if (res.code === 0) {
                 var xq_like = $('#' + 'xq-like' + id);
                 var xq_like_icon = $('#' + 'xq-like-icon' + id);
@@ -186,10 +220,11 @@ function like(id) {
 }
 
 function viewAdd(id) {
-    layui.use('jquery', function() {
+    layui.use('jquery',
+    function() {
         var $ = layui.jquery;
-        $.getJSON('/xq/view/add/' + id, function (res) {
-        })
+        $.getJSON('/xq/view/add/' + id,
+        function(res) {})
     })
 }
 
@@ -201,10 +236,13 @@ function comment(id) {
         maxlength: 100,
         title: '留言',
         area: ['300px', '50px'] //自定义文本域宽高
-    }, function(value, index, elem){
-        layui.use('jquery', function() {
+    },
+    function(value, index, elem) {
+        layui.use('jquery',
+        function() {
             var $ = layui.jquery;
-            $.getJSON('/xq/comment/add/' + id + '?comment=' + value, function (res) {
+            $.getJSON('/xq/comment/add/' + id + '?comment=' + value,
+            function(res) {
                 if (res.code === 0) {
                     layer.msg("评论成功");
                     location.reload();
@@ -218,14 +256,16 @@ function comment(id) {
 }
 
 function showStoryDetail(id) {
-    layui.use('jquery', function() {
+    layui.use('jquery',
+    function() {
         var $ = layui.jquery;
-        $.getJSON('/story/detail/' + id, function (res) {
+        $.getJSON('/story/detail/' + id,
+        function(res) {
             if (res.code === 0) {
                 var title = res.data.title;
                 var author = res.data.author;
                 var dt = res.data.dt + '';
-                var dtFmt = dt.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1/$2/$3")
+                var dtFmt = dt.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1/$2/$3");
                 var timeStr = dtFmt;
                 var content = res.data.content;
                 $('#stories').attr("hidden", "");
@@ -242,7 +282,8 @@ function showStoryDetail(id) {
     })
 }
 
-layui.use('element', function() {
+layui.use('element',
+function() {
     var element = layui.element;
     var $ = layui.jquery;
     //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
@@ -259,28 +300,32 @@ layui.use('element', function() {
     }
 
     //监听Tab切换，以改变地址hash值
-    element.on('tab(tabBrief)', function(){
-        location.hash = 'li='+ this.getAttribute('lay-id');
+    element.on('tab(tabBrief)',
+    function() {
+        location.hash = 'li=' + this.getAttribute('lay-id');
     });
 });
 
-layui.use('upload', function(){
+layui.use('upload',
+function() {
     var upload = layui.upload;
 
     //执行实例
     var uploadInst = upload.render({
         elem: '#uploadInPhotos' //绑定元素
-        ,multiple: true
-        ,url: '/pic/upload/' //上传接口
-        ,done: function(res){
+        ,
+        multiple: true,
+        url: '/pic/upload/' //上传接口
+        ,
+        done: function(res) {
             //上传完毕回调
             if (res.code === 0) {
                 layer.msg("上传成功")
             } else {
                 layer.msg(res.msg);
             }
-        }
-        ,error: function(){
+        },
+        error: function() {
             //请求异常回调
             layer.msg("上传失败");
         }
@@ -289,5 +334,4 @@ layui.use('upload', function(){
 
 function isEmpty(param) {
     return param === null || param === "" || param === undefined;
-
 }

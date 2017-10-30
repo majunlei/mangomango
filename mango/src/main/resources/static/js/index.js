@@ -13,8 +13,7 @@ function showPhotos() {
         var layer = layui.layer;
         var username = $.cookie("username");
         if (!isEmpty(username)) {
-            $('#uploadInPhotos').remove();
-            $('#photos').after('<button type="button" class="layui-btn layui-btn-radius layui-btn-normal" id="uploadInPhotos" style="float: right;margin-top: 10px;margin-bottom: 10px;"><i class="layui-icon">&#xe67c;</i>上传图片</button>');
+            $('#uploadInPhotos').css("display", "inline");
         }
         flow.load({
             elem: '#photos' //指定列表容器
@@ -282,8 +281,7 @@ function showStoryDetail(id) {
     })
 }
 
-layui.use('element',
-function() {
+layui.use('element',function() {
     var element = layui.element;
     var $ = layui.jquery;
     //获取hash来切换选项卡，假设当前地址的hash为lay-id对应的值
@@ -306,18 +304,15 @@ function() {
     });
 });
 
-layui.use('upload',
-function() {
+layui.use('upload',function() {
     var upload = layui.upload;
 
     //执行实例
     var uploadInst = upload.render({
         elem: '#uploadInPhotos' //绑定元素
-        ,
-        multiple: true,
+        ,multiple: true,
         url: '/pic/upload/' //上传接口
-        ,
-        done: function(res) {
+        ,done: function(res) {
             //上传完毕回调
             if (res.code === 0) {
                 layer.msg("上传成功")

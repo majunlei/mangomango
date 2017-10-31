@@ -37,21 +37,12 @@ public class MyWebSocket {
         cast("当前用户数:" + webSocketSet.size() + " 用户ID:" + webSocketSet.toString());
     }
 
-    /**
-     * 连接关闭调用的方法
-     */
     @OnClose
     public void onClose() {
         webSocketSet.remove(this);
         cast("当前用户数:" + webSocketSet.size() + " 用户ID:" + webSocketSet.toString());
-
     }
 
-    /**
-     * 收到消息
-     * @param message
-     * @param session
-     */
     @OnMessage
     public void onMessage(String message, Session session) {
         logger.info("收到消息:{} 发送者sessionId:{}", message, session.getId());

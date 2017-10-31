@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
     <link rel="stylesheet" href="/layui/css/layui.css"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/css/swiper.min.css"/>
+    <link rel="stylesheet" href="/lib/swiper.min.css"/>
     <link rel="stylesheet" href="css/index.css" type="text/css"/>
+    <style>
+        body {width: 97%; margin: 0 auto;}
+    </style>
     <!--百度统计代码-->
     <script>
         var _hmt = _hmt || [];
@@ -22,7 +25,7 @@
 <body>
 <div class="layui-tab layui-tab-brief" lay-filter="tabBrief">
     <ul class="layui-tab-title layui-col-xs11 layui-col-sm11 layui-col-md11" style="font-size: 16px">
-        <li class="layui-this layui-col-xs3 layui-col-sm3 layui-col-md3" lay-id="1"><i class="layui-icon">&#xe68e;我们</i></li>
+        <li class="layui-this layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showWe()" lay-id="1"><i class="layui-icon">&#xe68e;我们</i></li>
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showPhotos()" lay-id="2"><i class="layui-icon">&#xe634;照片</i></li>
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showStories()" lay-id="3"><i class="layui-icon">&#xe705;故事</i></li>
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showXq()" lay-id="4"><i class="layui-icon">&#xe6af;心情</i></li>
@@ -33,55 +36,8 @@
         <div class="layui-tab-item layui-show" style="margin-top: 40px">
             <p align="center" style="font-size: 20px;font-weight: bold;">️相爱❤️&nbsp;<span class="days" th:text="${days}"></span>&nbsp;❤️天️</p>
             <hr/>
-            <ul class="layui-timeline">
-                <li class="layui-timeline-item">
-                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                    <div class="layui-timeline-content layui-text">
-                        <h3 class="layui-timeline-title">10月6日</h3>
-                        <p>
-                            带小妹一起去天津,漫步五大道,徜徉风情街。
-                        </p>
-                    </div>
-                </li>
-                <li class="layui-timeline-item">
-                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                    <div class="layui-timeline-content layui-text">
-                        <h3 class="layui-timeline-title">5月1日</h3>
-                        <p>
-                            平遥古城,留下了属于我们的记忆。<br/>
-                        </p>
-                    </div>
-                </li>
-                <li class="layui-timeline-item">
-                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                    <div class="layui-timeline-content layui-text">
-                        <h3 class="layui-timeline-title">4月2日</h3>
-                        <p>
-                            成都:一场说走就走的旅行。<br/>
-                            和我在成都的街头走一走,直到所有的灯都熄灭了也不停留。
-                        </p>
-                    </div>
-                </li>
-                <li class="layui-timeline-item">
-                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                    <div class="layui-timeline-content layui-text">
-                        <h3 class="layui-timeline-title">1月1日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2017年</h3>
-                        <p>
-                            第一次牵手。
-                        </p>
-                    </div>
-                </li>
-                <li class="layui-timeline-item">
-                    <i class="layui-icon layui-timeline-axis">&#xe63f;</i>
-                    <div class="layui-timeline-content layui-text">
-                        <h3 class="layui-timeline-title">12月31日&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2016年</h3>
-                        <p>
-                            我们第一次遇见。<br/>
-                            匆匆忙忙地见面,却一见如故。
-                        </p>
-                    </div>
-                </li>
-            </ul>
+            <div id="we">
+            </div>
         </div>
         <div class="layui-tab-item" style="margin-top: 40px">
             <div id="photos"></div>
@@ -100,8 +56,9 @@
 </div>
 
 <script src="/layui/layui.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.0.2/js/swiper.min.js"></script>
+<script src="/lib/swiper.min.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/show.js"></script>
 <script src="/js/login.js"></script>
 </body>
 </html>

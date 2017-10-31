@@ -1,3 +1,12 @@
+CREATE TABLE `time_line` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `date` varchar(50) NOT NULL COMMENT '日期',
+  `description` varchar(200) NOT NULL COMMENT '描述',
+  `ctime` int(11) NOT NULL COMMENT '创建时间',
+  `utime` int(11) NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='时间线表';
+
 CREATE TABLE `pic` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `seq` int(11) NOT NULL COMMENT '顺序',

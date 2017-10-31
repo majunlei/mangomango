@@ -1,6 +1,4 @@
 "use strict";
-layui.use('cookies', function(){
-});
 
 function loginout() {
     layui.use('layer', function(){
@@ -52,7 +50,7 @@ function login() {
         if (isEmpty(username) || isEmpty(password)) {
             layer.alert("用户名或密码不能为空");
         }
-        $.getJSON('/user/login?username=' + username + '&password=' + password, function (res) {
+        $.getJSON('/user/login', {username: username, password: password}, function (res) {
             if (res.code === 0) {
                 layer.msg("登录成功");
                 layer.closeAll();

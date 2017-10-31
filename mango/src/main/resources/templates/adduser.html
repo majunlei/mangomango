@@ -49,7 +49,7 @@
                 layer.alert("用户名或密码不能为空");
                 return;
             }
-            $.getJSON('/user/add', { usernameNew: username, passwordNew: password}, function(res) {
+            $.getJSON('/user/add', {usernameNew: username, passwordNew: password}, function(res) {
                 layer.msg(res.msg);
                 return true;
             });

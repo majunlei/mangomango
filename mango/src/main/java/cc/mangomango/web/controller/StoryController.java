@@ -64,7 +64,7 @@ public class StoryController {
         try {
             storyService.save(title, author, content);
         } catch (Exception e) {
-            logger.info("add Exception. title:{} content:{} author:{}", title, content, author, e);
+            logger.error("add Exception. title:{} content:{} author:{}", title, content, author, e);
             return MvcUtil.returnJSON(1, "提交失败", null);
         }
         return MvcUtil.returnSuc();

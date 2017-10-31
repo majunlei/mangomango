@@ -73,8 +73,4 @@ public class PicService {
         return picMapper.del(id);
     }
 
-    public int changePos(long id, int pos) {
-        return picMapper.updatePos(id, pos);
-    }
-
 }

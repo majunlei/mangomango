@@ -103,7 +103,7 @@ public class XqController {
             xqService.save(xq, stamp, author);
             return MvcUtil.returnSuc();
         } catch (Exception e) {
-            logger.info("add Exception. xq:{} stamp:{} author:{}", xq, stamp, author, e);
+            logger.error("add Exception. xq:{} stamp:{} author:{}", xq, stamp, author, e);
             return MvcUtil.returnJSON(1, "提交失败", null);
         }
     }

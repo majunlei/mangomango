@@ -14,19 +14,19 @@ import java.util.List;
 public interface StoryMapper {
 
     @Select("select id,title,author,dt,ctime from story order by ctime desc limit ${offset},#{limits}")
-    public List<Story> getByPage(@Param("offset") int offset, @Param("limits") int limits);
+    List<Story> getByPage(@Param("offset") int offset, @Param("limits") int limits);
 
     @Select("select s.id,s.title,s.author,s.dt,s.ctime,sc.content from story s inner join story_content sc on s.id=sc.story_id where s.id=#{id}")
-    public Story getDetailByStoryId(@Param("id") long id);
+    Story getDetailByStoryId(@Param("id") long id);
 
     @Select("select count(*) from story")
-    public int getCount();
+    int getCount();
 
     @Insert("insert into story(title,author,dt,ctime,utime) values (#{title},#{author},#{dt},unix_timestamp(),unix_timestamp())")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    public int save(Story story);
+    int save(Story story);
 
     @Insert("insert into story_content(story_id,content,ctime,utime) values (#{storyId},#{content},unix_timestamp(),unix_timestamp())")
-    public void saveContent(@Param("storyId") long storyId, @Param("content") String content);
+    void saveContent(@Param("storyId") long storyId, @Param("content") String content);
 
 }

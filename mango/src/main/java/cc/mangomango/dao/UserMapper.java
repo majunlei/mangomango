@@ -23,7 +23,7 @@ public interface UserMapper {
     @Select("select count(*) from `user` u inner join `user_token` t on u.id=t.user_id where u.username=#{username} and t.token=#{token} and t.status=0")
     int countToken(@Param("username") String username, @Param("token") String token);
 
-    @Update("update `user` set head_photo=#{headPhoto} where username=#{username}")
+    @Update("update `user` set head_photo=#{headPhoto},utime=unix_timestamp() where username=#{username}")
     int updateHeadPhoto(@Param("headPhoto") String headPhoto, @Param("username") String username);
 
 }

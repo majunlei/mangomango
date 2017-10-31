@@ -79,6 +79,7 @@ CREATE TABLE `xq_comment` (
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `username` varchar(50) COMMENT '用户名',
+  `head_photo` varchar(100) NOT NULL DEFAULT '' COMMENT '头像',
   `password` varchar(100) COMMENT '密码',
   `ctime` int(11) NOT NULL COMMENT '创建时间',
   `utime` int(11) NOT NULL COMMENT '更新时间',

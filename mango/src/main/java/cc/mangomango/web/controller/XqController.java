@@ -47,6 +47,9 @@ public class XqController {
                         url.setThumbUrl(Constants.PIC_URL_PREFIX + url.getThumbUrl());
                     }
                 }
+                if (!StringUtils.isEmpty(xq.getHeadPhoto())) {
+                    xq.setHeadPhoto(Constants.PIC_URL_PREFIX + xq.getHeadPhoto());
+                }
                 xq.setTimeDesc(DateUtil.getTimeDesc(xq.getCtime()));
             }
             JSONObject jsonObject = new JSONObject();

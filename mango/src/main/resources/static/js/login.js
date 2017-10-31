@@ -1,21 +1,27 @@
 "use strict";
 
 function loginout() {
-    layui.use('layer', function(){
+    layui.use('upload', function(){
         var layer = layui.layer;
         var $ = layui.jquery;
+        var upload = layui.upload;
+
         var username = $.cookie('username');
+        var headPhoto = $.cookie('headPhoto');
+        var photo = '';
+        if (!isEmpty(headPhoto)) {
+            photo = '<div style="width: 100px; margin-bottom: 10px"><img src="' + headPhoto + '"/></div>';
+        }
         if (isEmpty(username)) {
             layer.open({
                 type: 1
                 , title: false //不显示标题栏
-                , closeBtn: false
                 , area: '300px;'
                 , shade: 0.5
                 , id: 'LAY_login' //设定一个id，防止重复弹出
                 , btn: ['登录', '我就看看']
                 , btn1: function () {
-                     login();
+                    login();
                 }, btnAlign: 'c'
                 , moveType: 1 //拖拽模式，0或者1
                 , content: '<div style="padding: 30px; background-color: #393D49; color: #fff; font-size: 14px">' +
@@ -25,18 +31,34 @@ function loginout() {
             layer.open({
                 type: 1
                 , title: false //不显示标题栏
-                , closeBtn: false
                 , area: '300px;'
                 , shade: 0.5
                 , id: 'LAY_logout' //设定一个id，防止重复弹出
-                , btn: ['退出', '取消']
+                , btn: ['退出', '设置头像']
                 , btn1: function () {
-                     logout();
+                    logout();
                 }, btnAlign: 'c'
                 , moveType: 1 //拖拽模式，0或者1
-                , content: '<div style="padding: 30px; background-color: #393D49; color: #fff; font-size: 14px">' +
-                '你好，亲爱的' + username + '<br/>确认退出吗？<br/><br/></div>'
-            })
+                , content: '<div style="padding: 30px; background-color: #393D49; color: #fff; font-size: 14px">' + photo +
+                '亲爱的&nbsp;<span style="font-weight: bold">' + username + '：</span><br/>你好，祝你今天有个好心情<br/><br/></div>'
+            });
+            //执行实例
+            var uploadInst = upload.render({
+                elem: $('.layui-layer-btn1') //绑定元素
+                ,url: '/user/set/photo' //上传接口
+                ,done: function(res){
+                    if (res.code === 0) {
+                        layer.msg("设置成功");
+                        location.reload();
+                    } else {
+                        layer.msg(res.msg);
+                    }
+                }
+                ,error: function(){
+                    //请求异常回调
+                    layer.msg("请求异常");
+                }
+            });
         }
     })
 }
@@ -73,7 +95,7 @@ function logout() {
         $.cookie("username", null, {expires:0,path: '/'});
         $.cookie("token", null, {expires:0,path: '/'});
         layer.msg("已退出");
-            layer.closeAll();
-            location.reload();
+        layer.closeAll();
+        location.reload();
     })
 }

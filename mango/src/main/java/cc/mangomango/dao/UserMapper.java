@@ -4,13 +4,14 @@ import cc.mangomango.domain.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * Created by majunlei on 2017/10/30.
  */
 public interface UserMapper {
 
-    @Select("select id,`username`,`password`,ctime from `user` where username=#{username}")
+    @Select("select id,`username`,`password`,`head_photo`,ctime from `user` where username=#{username}")
     User getByUsername(@Param("username") String username);
 
     @Select("insert into `user`(`username`,`password`,ctime,utime) values (#{username},#{password},unix_timestamp(),unix_timestamp())")
@@ -21,5 +22,8 @@ public interface UserMapper {
 
     @Select("select count(*) from `user` u inner join `user_token` t on u.id=t.user_id where u.username=#{username} and t.token=#{token} and t.status=0")
     int countToken(@Param("username") String username, @Param("token") String token);
+
+    @Update("update `user` set head_photo=#{headPhoto} where username=#{username}")
+    int updateHeadPhoto(@Param("headPhoto") String headPhoto, @Param("username") String username);
 
 }

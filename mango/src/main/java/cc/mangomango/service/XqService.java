@@ -1,8 +1,10 @@
 package cc.mangomango.service;
 
 import cc.mangomango.constants.Constants;
+import cc.mangomango.dao.UserMapper;
 import cc.mangomango.dao.XqMapper;
 import cc.mangomango.domain.PicUrl;
+import cc.mangomango.domain.User;
 import cc.mangomango.domain.Xq;
 import cc.mangomango.domain.XqComment;
 import cc.mangomango.util.ImageUtil;
@@ -27,6 +29,8 @@ public class XqService {
 
     @Autowired
     private XqMapper xqMapper;
+    @Autowired
+    private UserMapper userMapper;
 
     public int getCount() {
         return xqMapper.getCount();
@@ -46,6 +50,10 @@ public class XqService {
                 List<XqComment> xqCommentList = xqMapper.getComments(xq.getId());
                 if (!CollectionUtils.isEmpty(xqCommentList)) {
                     xq.setComments(xqCommentList);
+                }
+                User user = userMapper.getByUsername(xq.getAuthor());
+                if (user != null && !StringUtils.isEmpty(user.getHeadPhoto())) {
+                    xq.setHeadPhoto(user.getHeadPhoto());
                 }
             }
         }

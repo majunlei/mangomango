@@ -11,6 +11,8 @@ public class User {
 
     private String password;
 
+    private String headPhoto;
+
     private int ctime;
 
     public long getId() {
@@ -35,6 +37,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getHeadPhoto() {
+        return headPhoto;
+    }
+
+    public void setHeadPhoto(String headPhoto) {
+        this.headPhoto = headPhoto;
     }
 
     public int getCtime() {

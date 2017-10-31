@@ -1,4 +1,7 @@
 "use strict";
+
+showWe();
+
 function showWe() {
     layui.use(['layer', 'flow'],
         function() {
@@ -177,11 +180,15 @@ function showXq() {
                                 layui.each(res.data,
                                     function(index, item) {
                                         var liked = localStorage.getItem("like_" + item.id);
+                                        var headPhotoStr = '';
+                                        if (!isEmpty(item.headPhoto)) {
+                                            headPhotoStr = '<img style="width: 50px; margin-right: 10px" src="' + item.headPhoto + '"/>';
+                                        }
                                         var likeIcon = '<i id="xq-like-icon' + item.id + '" class="layui-icon" style="margin-left: 10%" onclick="like(' + item.id + ')">&#xe6c6</i>';
                                         if (liked === "1") {
                                             likeIcon = '<i id="xq-like-icon' + item.id + '" class="layui-icon" style="margin-left: 10%; color: grey">&#xe6c6</i>';
                                         }
-                                        lis.push('<fieldset class="layui-elem-field"><legend style="font-weight: bold">' + item.author + '</legend>' + '<div class="layui-field-box layui-row layui-col-space5">' + item.xq);
+                                        lis.push('<fieldset class="layui-elem-field"><legend style="font-weight: bold">' + headPhotoStr + item.author + '</legend>' + '<div class="layui-field-box layui-row layui-col-space5">' + item.xq);
                                         for (var i in item.urls) {
                                             lis.push('<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><img layer-src="' + item.urls[i].url + '" lay-src="' + item.urls[i].thumbUrl + '" layer-index="' + item.id + '" alt="' + item.id + '" width="100%"/></div>')
                                         }

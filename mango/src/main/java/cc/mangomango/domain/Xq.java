@@ -13,6 +13,8 @@ public class Xq {
 
     private String author;
 
+    private String headPhoto;
+
     private int stamp;
 
     private int view;
@@ -49,6 +51,14 @@ public class Xq {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getHeadPhoto() {
+        return headPhoto;
+    }
+
+    public void setHeadPhoto(String headPhoto) {
+        this.headPhoto = headPhoto;
     }
 
     public int getStamp() {

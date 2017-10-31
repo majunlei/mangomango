@@ -9,4 +9,8 @@ public interface Constants {
 
     String PIC_URL_PREFIX = "http://mangomango.cc/img/";
 
+//    String PIC_DIR = "/Users/majunlei/mine/";
+//
+//    String PIC_URL_PREFIX = "http://127.0.0.1:8080/";
+
 }

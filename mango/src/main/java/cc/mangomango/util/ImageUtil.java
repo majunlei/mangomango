@@ -33,6 +33,16 @@ public class ImageUtil {
         return true;
     }
 
+    public static boolean uploadHeadPhoto(MultipartFile file, String filePath) {
+        try (InputStream is = file.getInputStream()) {
+            Thumbnails.of(is).size(200, 200).toFile(filePath);
+        } catch (Exception e) {
+            logger.error("uploadHeadPhoto Exception. filePath:{}", filePath, e);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * @Description: 将base64编码字符串转换为图片
      * @param imgStr

@@ -51,7 +51,7 @@ public class HomeController {
     }
 
     @RequestMapping("devtest")
-    public String justDevTest() {
+    public String devTest() {
         return "devtest";
     }
 

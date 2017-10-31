@@ -23,6 +23,7 @@
     </script>
 </head>
 <body>
+
 <div class="layui-tab layui-tab-brief" lay-filter="tabBrief">
     <ul class="layui-tab-title layui-col-xs11 layui-col-sm11 layui-col-md11" style="font-size: 16px">
         <li class="layui-this layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showWe()" lay-id="1"><i class="layui-icon">&#xe68e;我们</i></li>
@@ -32,24 +33,26 @@
     </ul>
     <div class="layui-col-xs1 layui-col-sm1 layui-col-md1" style="font-size: 12px;margin:0 auto"><div style="margin-top: 5px; color: green" onclick="loginout()"><p align="center">你好</p><p align="center" th:text="${username == null}?'朋友':${username}" ></p></div></div>
 
+    <div id="audioBox" style="margin: 0 auto; text-align: center;"></div>
+
     <div class="layui-tab-content" style="margin-top: -10px">
-        <div class="layui-tab-item layui-show" style="margin-top: 40px">
+        <div class="layui-tab-item layui-show">
             <p align="center" style="font-size: 20px;font-weight: bold;">️相爱❤️&nbsp;<span class="days" th:text="${days}"></span>&nbsp;❤️天️</p>
             <hr/>
             <div id="we">
             </div>
         </div>
-        <div class="layui-tab-item" style="margin-top: 40px">
+        <div class="layui-tab-item">
             <div id="photos"></div>
             <button type="button" class="layui-btn layui-btn-radius layui-btn-normal" id="uploadInPhotos" style="float: right;margin-top: 10px;margin-bottom: 10px; display:none"><i class="layui-icon">&#xe67c;</i>上传图片</button>
         </div>
-        <div class="layui-tab-item" style="margin-top: 40px">
+        <div class="layui-tab-item">
             <div id="stories" style="margin-top: 10px; margin-bottom: 10px">
             </div>
             <div id="story-detail-area" style="margin-top: 10px; margin-bottom: 10px">
             </div>
         </div>
-        <div class="layui-tab-item" style="margin-top: 40px">
+        <div class="layui-tab-item">
             <div id="xqs" style="margin:0 auto;"></div>
         </div>
     </div>
@@ -58,6 +61,7 @@
 <script src="/layui/layui.js"></script>
 <script src="/lib/swiper.min.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/audio.js"></script>
 <script src="/js/show.js"></script>
 <script src="/js/login.js"></script>
 </body>

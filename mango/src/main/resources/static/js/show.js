@@ -26,7 +26,7 @@ function showWe() {
                                 //假设你的列表返回在data集合中
                                 layui.each(res.data,
                                     function(index, item) {
-                                        lis.push('<li class="layui-timeline-item"><i class="layui-icon layui-timeline-axis">&#xe63f;</i><div class="layui-timeline-content layui-text"><h3 class="layui-timeline-title"><pre style="font-family: -webkit-body">' +
+                                        lis.push('<li class="layui-timeline-item"><i class="layui-icon layui-timeline-axis">&#xe63f;</i><div class="layui-timeline-content layui-text"><h3 class="layui-timeline-title"><pre style="font-family: -webkit-body; font-weight: bold">' +
                                             item.date + '</pre></h3><p><pre style="font-family: -webkit-body">' + item.description + '</pre></p></div></li>');
                                     });
                                 lis.push('</ul>');

@@ -8,16 +8,18 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by majunlei on 2017/10/15.
  */
-@RestController
+@Controller
 @RequestMapping("/story")
 public class StoryController {
 
@@ -27,6 +29,7 @@ public class StoryController {
     private StoryService storyService;
 
     @RequestMapping(value = "get", method = RequestMethod.GET)
+    @ResponseBody
     public String getByPage(@RequestParam(value = "page", defaultValue = "1") int page) {
         int pageSize = 10;
         try {
@@ -47,6 +50,7 @@ public class StoryController {
     }
 
     @RequestMapping(value = "detail/{id}", method = RequestMethod.GET)
+    @ResponseBody
     public String getById(@PathVariable("id") long id) {
         try {
             Story story = storyService.getDetailByStoryId(id);
@@ -57,7 +61,25 @@ public class StoryController {
         return MvcUtil.returnJSON(1, "获取详情异常", null);
     }
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String getDetailById(@PathVariable("id") long id, Map<String,Object> map) {
+        try {
+            Story story = storyService.getDetailByStoryId(id);
+            if (story != null) {
+                map.put("title", story.getTitle());
+                map.put("author", story.getAuthor());
+                String dt = String.valueOf(story.getDt()).substring(0, 4) + "/" + String.valueOf(story.getDt()).substring(4, 6) + "/" + String.valueOf(story.getDt()).substring(6, 8);
+                map.put("dt", dt);
+                map.put("content", story.getContent());
+            }
+        } catch (Exception e) {
+            logger.error("getDetailById Exception. id:{}", id, e);
+        }
+        return "story_detail";
+    }
+
     @RequestMapping(value = "add", method = RequestMethod.POST)
+    @ResponseBody
     public String add(@RequestParam("title") String title, @RequestParam("content") String content,
                       @RequestParam(value = "author") String author) {
         logger.info("add start. title:{} content:{} author:{}", title, content, author);
@@ -71,6 +93,7 @@ public class StoryController {
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
     public String uploadImage(@RequestParam("file") MultipartFile file) {
         String fileType = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1, file.getOriginalFilename().length()).toLowerCase();
         if (!"jpg".equalsIgnoreCase(fileType) && !"jpeg".equalsIgnoreCase(fileType) && !"png".equalsIgnoreCase(fileType)) {

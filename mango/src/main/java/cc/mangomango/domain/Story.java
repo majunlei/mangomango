@@ -64,4 +64,5 @@ public class Story {
     public void setCtime(int ctime) {
         this.ctime = ctime;
     }
+
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/layui/css/layui.css"/>
     <style type="text/css">
         img {width: 100%}
+        img[src*="/layui/images/face/"] {width: auto}
     </style>
 </head>
 <body>
@@ -34,9 +35,12 @@
         });
         var index = layedit.build('content', {
             tool: [
-                'strong','italic','underline','del','|','left','center','right','link','unlink','image'
+                'strong','italic','underline','del','|','left','center','right','link','unlink','face', 'image'
             ]
         }); //建立编辑器
+        $('.layedit-tool-face').bind('click', function () {
+            $('.layui-layer-tips').css("left", "0px");
+        });
 
         $('#preview').on('click', function(){
             var title = $('#title')[0].value;
@@ -46,8 +50,7 @@
             var content = layedit.getContent(index);
             var preview_area = $('#preview-area');
             preview_area.empty();
-            preview_area.append('<hr/>');
-            preview_area.append('<p class="layui-layer-title" style="font-size: 28px;font-weight: bold;">' + title + '</p>');
+            preview_area.append('<hr/><p class="layui-layer-title" style="font-size: 28px;font-weight: bold;">' + title + '</p>');
             preview_area.append('<fieldset class="layui-elem-field layui-field-title"><legend>' + author + '&nbsp;&nbsp;' + timeStr + '</legend>');
             preview_area.append('<div class="layui-field-box">' + content + '</div></fieldset>');
         });

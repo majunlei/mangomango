@@ -140,7 +140,9 @@ function showStories() {
                                     function(index, item) {
                                         var dt = item.dt + '';
                                         var dtFmt = dt.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1/$2/$3");
-                                        lis.push('<p><a class="story-title" href="javascritp:void(0)" ' + 'onclick="showStoryDetail(' + item.id + ')">' + item.title + '</a><span style="float: right">' + dtFmt + '</span></p><hr/>')
+                                        lis.push('<p><a class="story-title" href="/story/' + item.id + '.html">' + item.title + '</a><span style="float: right">' + dtFmt + '</span></p><hr/>')
+
+                                        // lis.push('<p><a class="story-title" href="javascritp:void(0)" ' + 'onclick="showStoryDetail(' + item.id + ')">' + item.title + '</a><span style="float: right">' + dtFmt + '</span></p><hr/>')
                                     });
                                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
                                 //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
@@ -176,21 +178,22 @@ function showXq() {
                         function(res) {
                             if (res.code === 0) {
                                 //假设你的列表返回在data集合中
-                                lis.push('<div id="xq-page' + page + '">');
+                                var xq_page = 'xq-page' + page;
+                                lis.push('<div>');
                                 layui.each(res.data,
                                     function(index, item) {
                                         var liked = localStorage.getItem("like_" + item.id);
                                         var headPhotoStr = '';
                                         if (!isEmpty(item.headPhoto)) {
-                                            headPhotoStr = '<img style="width: 50px; margin-right: 10px" src="' + item.headPhoto + '"/>';
+                                            headPhotoStr = '<img class="do-not-photo" style="width: 50px; margin-right: 10px" src="' + item.headPhoto + '"/>';
                                         }
                                         var likeIcon = '<i id="xq-like-icon' + item.id + '" class="layui-icon" style="margin-left: 10%" onclick="like(' + item.id + ')">&#xe6c6</i>';
                                         if (liked === "1") {
                                             likeIcon = '<i id="xq-like-icon' + item.id + '" class="layui-icon" style="margin-left: 10%; color: grey">&#xe6c6</i>';
                                         }
-                                        lis.push('<fieldset class="layui-elem-field"><legend style="font-weight: bold">' + headPhotoStr + item.author + '</legend>' + '<div class="layui-field-box layui-row layui-col-space5">' + item.xq);
+                                        lis.push('<fieldset class="layui-elem-field"><legend style="font-weight: bold">' + headPhotoStr + item.author + '</legend>' + '<div style="font-size: 16px" class="layui-field-box layui-row layui-col-space5"><div>' + item.xq + '</div>');
                                         for (var i in item.urls) {
-                                            lis.push('<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><img layer-src="' + item.urls[i].url + '" lay-src="' + item.urls[i].thumbUrl + '" layer-index="' + item.id + '" alt="' + item.id + '" width="100%"/></div>')
+                                            lis.push('<div class="layui-col-xs4 layui-col-sm4 layui-col-md4 ' + xq_page + '"><img layer-src="' + item.urls[i].url + '" lay-src="' + item.urls[i].thumbUrl + '" layer-index="' + item.id + '" alt="' + item.id + '" width="100%"/></div>')
                                         }
                                         lis.push('</div><div style="margin-bottom: 35px"><div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span style="margin-left: 10px; font-size: 14px">' + item.timeDesc + '</span></div>' + '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4">&nbsp;</div><div class="layui-col-xs5 layui-col-sm5 layui-col-md5">' + '<span class="layui-badge-rim">看</span><span style="font-size: 14px">' + item.view + '</span>' + likeIcon + '<span id="xq-like' + item.id + '"style="font-size: 14px">' + item.like + '</span>' + '<i class="layui-icon" style="margin-left: 10%" onclick="comment(' + item.id + ')">&#xe611;</i></div></div>');
 
@@ -220,10 +223,12 @@ function showXq() {
                                 next(lis.join(''), page < res.pages);
                                 var thisWidth = $(document.body).width() * 0.95 + 'px';
                                 layer.photos({
-                                    photos: '#' + photoPage,
+                                    photos: '.' + photoPage,
                                     area: [thisWidth],
                                     tab: function(pic, layero) {
-                                        viewAdd(pic.alt);
+                                        if (!isEmpty(pic.alt && $.isNumeric(pic.alt))) {
+                                            viewAdd(pic.alt);
+                                        }
                                     }
                                 });
                             } else {

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title>MangoPapaya</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" href="/layui/css/layui.css"/>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?08595b066f336338ef9f232b487096fb";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<body>
+
+<div class="layui-tab layui-tab-brief" lay-filter="tabBrief">
+    <ul class="layui-tab-title layui-col-xs11 layui-col-sm11 layui-col-md11" style="font-size: 16px">
+        <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="location='/#li=1'" lay-id="1"><i class="layui-icon">&#xe68e;我们</i></li>
+        <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="location='/#li=2'" lay-id="2"><i class="layui-icon">&#xe634;照片</i></li>
+        <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="location='/#li=3'" lay-id="3"><i class="layui-icon">&#xe705;故事</i></li>
+        <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="location='/#li=4'" lay-id="4"><i class="layui-icon">&#xe6af;心情</i></li>
+    </ul>
+    <div layout:fragment="content"></div>
+</div>
+<script src="/layui/layui.js"></script>
+</body>
+</html>

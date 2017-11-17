@@ -33,6 +33,11 @@ function like(id) {
 }
 
 function viewAdd(id) {
+    var view = localStorage.getItem("view_" + id);
+    if (view === "1") {
+        return;
+    }
+    localStorage.setItem("view_" + id, "1");
     layui.use('jquery',
     function() {
         var $ = layui.jquery;

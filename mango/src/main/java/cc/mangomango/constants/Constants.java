@@ -1,16 +1,27 @@
 package cc.mangomango.constants;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 /**
  * Created by majunlei on 2017/10/16.
  */
-public interface Constants {
+@Component
+public class Constants {
 
-    String PIC_DIR = "/data/mango/img/";
 
-    String PIC_URL_PREFIX = "http://mangomango.cc/img/";
+    public static String PIC_DIR;
 
-//    String PIC_DIR = "/Users/majunlei/mine/";
-//
-//    String PIC_URL_PREFIX = "http://127.0.0.1:8080/";
 
+    public static String PIC_URL_PREFIX;
+
+    @Value("${mango.pic.dir}")
+    public void setPicDir(String picDir) {
+        PIC_DIR = picDir;
+    }
+
+    @Value("${mango.url.preffix}")
+    public void setPicUrlPrefix(String picUrlPrefix) {
+        PIC_URL_PREFIX = picUrlPrefix;
+    }
 }

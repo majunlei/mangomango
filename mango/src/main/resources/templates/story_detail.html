@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="base/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${title}"></title>
+    <link rel="stylesheet" href="/css/index.css" type="text/css"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="content-block">
+        <div style="margin-left: 10px; margin-right: 10px">
+            <hr/>
+            <p class="layui-layer-title" style="font-size: 28px;font-weight: bold;" th:text="${title}"></p>
+            <fieldset class="layui-elem-field layui-field-title"><legend th:text="${author}">&nbsp;&nbsp;<span th:text="${dt}"></span></legend>
+                <div class="layui-field-box" th:utext="${content}"></div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+</body>
+</html>

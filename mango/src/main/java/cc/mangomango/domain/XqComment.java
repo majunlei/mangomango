@@ -1,7 +1,5 @@
 package cc.mangomango.domain;
 
-import java.util.List;
-
 /**
  * Created by majunlei on 2017/10/29.
  */
@@ -36,4 +34,5 @@ public class XqComment {
     public void setCtime(int ctime) {
         this.ctime = ctime;
     }
+
 }

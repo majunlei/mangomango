@@ -1,14 +1,19 @@
+body {
+    background: #dddddd;
+    font-size:1.2em;
+}
+
 .days{
     font-size: 32px;
     font-weight: bold;
     text-align: center;
 }
 
-img {
-    width: 100%;
-}
+img {width: 100%}
 
-.story-title{
+img[src*="/layui/images/face/"] {width: auto}
+
+.story-title {
     white-space:nowrap;
     overflow:hidden;
     text-overflow: ellipsis;
@@ -16,6 +21,10 @@ img {
     float: left
 }
 
-body{
-    font-size:1.2em;
+.content-block {
+    line-height: 1.2;
+    background: white;
+    margin-top: -10px;
+    margin-left: 2%;
+    margin-right: 2%;
 }

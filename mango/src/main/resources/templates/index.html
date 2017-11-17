@@ -7,9 +7,9 @@
     <link rel="icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
     <link rel="stylesheet" href="/layui/css/layui.css"/>
     <link rel="stylesheet" href="/lib/swiper.min.css"/>
-    <link rel="stylesheet" href="css/index.css" type="text/css"/>
+    <link rel="stylesheet" href="/css/index.css" type="text/css"/>
     <style>
-        body {width: 95%; margin: 0 auto;}
+        body {margin: 0 auto;}
     </style>
     <!--百度统计代码-->
     <script>
@@ -24,20 +24,22 @@
 </head>
 <body>
 
-<div class="layui-tab layui-tab-brief" lay-filter="tabBrief">
-    <ul class="layui-tab-title layui-col-xs11 layui-col-sm11 layui-col-md11" style="font-size: 16px">
+<div class="layui-tab layui-tab-brief content-block" lay-filter="tabBrief">
+    <!--方便爬虫抓取故事内容-->
+    <a href="http://mangomango.cc/#li=2"></a>
+    <ul class="layui-tab-title layui-col-xs11 layui-col-sm11 layui-col-md11" style="font-size: 16px; margin-top: 10px">
         <li class="layui-this layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showWe()" lay-id="1"><i class="layui-icon">&#xe68e;我们</i></li>
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showPhotos()" lay-id="2"><i class="layui-icon">&#xe634;照片</i></li>
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showStories()" lay-id="3"><i class="layui-icon">&#xe705;故事</i></li>
         <li class="layui-col-xs3 layui-col-sm3 layui-col-md3" onclick="showXq()" lay-id="4"><i class="layui-icon">&#xe6af;心情</i></li>
     </ul>
-    <div class="layui-col-xs1 layui-col-sm1 layui-col-md1" style="font-size: 12px;margin:0 auto"><div style="margin-top: 5px; color: green" onclick="loginout()"><p align="center">你好</p><p align="center" th:text="${username == null}?'朋友':${username}" ></p></div></div>
+    <div class="layui-col-xs1 layui-col-sm1 layui-col-md1" style="font-size: 12px;margin-top:10px"><div style="margin-top: 5px; color: green" onclick="loginout()"><p align="center">你好</p><p align="center" th:text="${username == null}?'朋友':${username}" ></p></div></div>
 
     <div id="audioBox" style="margin: 0 auto; text-align: center;"></div>
 
-    <div class="layui-tab-content" style="margin-top: -10px">
+    <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
-            <p align="center" style="font-size: 20px;font-weight: bold;">️相爱❤️&nbsp;<span class="days" th:text="${days}"></span>&nbsp;❤️天️</p>
+            <p align="center" style="font-size: 20px;font-weight: bold;">️相爱️&nbsp;<span class="days" th:text="${days}"></span>&nbsp;️天️</p>
             <hr/>
             <div id="we">
             </div>
@@ -55,6 +57,8 @@
         <div class="layui-tab-item">
             <div id="xqs" style="margin:0 auto;"></div>
         </div>
+    </div>
+    <div style="height: 50px">
     </div>
 </div>
 
